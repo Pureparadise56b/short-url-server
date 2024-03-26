@@ -4,6 +4,7 @@ import { AsynHandler } from "../utils/AsyncHandler.util";
 import { Url } from "../models/url.model";
 import { Response } from "express";
 import { myCustomReq } from "../interfaces/config.interface";
+import { Types, isValidObjectId } from "mongoose";
 
 // TODO: url update
 
@@ -22,7 +23,11 @@ const getUrl = AsynHandler(async (req: myCustomReq, res: Response) => {
 const deleteUrl = AsynHandler(async (req: myCustomReq, res: Response) => {
   const { id } = req.query;
 
-  if (!id) throw new ApiError(400, "shortId is required.");
+  if (!id) throw new ApiError(400, "id is required.");
+
+  const isValidId = isValidObjectId(id);
+
+  if (!isValidId) throw new ApiError(400, "Id is not valid");
 
   const deletedUrl = await Url.findByIdAndDelete(id);
 

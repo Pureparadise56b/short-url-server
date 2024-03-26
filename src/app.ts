@@ -33,7 +33,7 @@ app.route("/").get((req: Request, res: Response) => {
 
 // Error handle
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  console.log(err);
+  console.error(`${err.name} :: ${err.message}`);
   res.status(err.statusCode).send(`${err.name} :: ${err.message}`);
 });
 
